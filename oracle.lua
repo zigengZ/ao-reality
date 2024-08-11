@@ -13,7 +13,7 @@ Llama = Llama or nil
 LLAMA_TOKEN_DENOMINATION = 12
 LLAMA_TOKEN_MULTIPLIER = 10 ^ LLAMA_TOKEN_DENOMINATION
 MIN_BET = 0.01
-MAX_BET = 0.01
+MAX_BET = 1
 MIN_BET_QUANTITY = MIN_BET * LLAMA_TOKEN_MULTIPLIER
 MAX_BET_QUANTITY = MAX_BET * LLAMA_TOKEN_MULTIPLIER
 
@@ -202,7 +202,7 @@ Handlers.add(
         Data = json.encode({
           AskOracleLlama = {
             Target = LLAMA_TOKEN_PROCESS,
-            Title = "Welcome to the Mystic Llama's Crystal Ball Casino! I am the Oracle Llama, keeper of secrets and predictor of... well, High and Low. Gaze into my all-seeing eyes (ignore the rectangle pupils, they're just for show) and test your luck! Will you climb to the heights of Mount Llamalaya or sink to the depths of the Llamazon Basin? Place your bets, brave soul, and may the spirit of the ancient llamas guide your hooves... I mean, hands!",
+            Title = "Welcome to Madame Baa-Baa's Wooly Wisdom Hut! I'm the Ovine Oracle, seer of Highs and Lows. Peer into my mystic eyes (rectangular pupils? Pure flair!) and test your fleece-tiny! Will you scale Ewe-verest or tumble into Shear Despair? Make a wish, brave lambkin - may ancient sheep spirits guide you!",
             Description = string.format(
               "Your balance: %s $LLAMA\n", FormatTokenAmount(balance)
             ),
