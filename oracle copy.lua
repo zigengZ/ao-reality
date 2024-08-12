@@ -17,8 +17,6 @@ MAX_BET = 1
 MIN_BET_QUANTITY = MIN_BET * LLAMA_TOKEN_MULTIPLIER
 MAX_BET_QUANTITY = MAX_BET * LLAMA_TOKEN_MULTIPLIER
 
-CACHE_PROCESS_BALANCE = 0
-RefreshProcessBalance()
 
 JokerDb = JokerDb or sqlite3.open_memory()
 JokerDbAdmin = JokerDbAdmin or require('DbAdmin').new(JokerDb)
@@ -49,7 +47,7 @@ end
 
 
 function FormatLlamaTokenAmount(amount)
-  return string.format("%.10f", amount / LLAMA_TOKEN_MULTIPLIER)
+  return string.format("%.1f", amount / LLAMA_TOKEN_MULTIPLIER)
 end
 
 function DispatchJokeMessage(jokeTopic)
@@ -172,37 +170,6 @@ function BetSchemaTags()
 ]]
 end
 
-
-function AdminchemaTags()
-  return [[
-{
-"type": "object",
-"required": [
-  "Action",
-  "Quantity",
-  "Recipient",
-],
-"properties": {
-  "Action": {
-    "type": "string",
-    "const": "AdminAction"
-  },
-  "Recipient": {
-    "type": "string",
-    "const": "]] .. ao.id .. [["
-  },
-  "Quantity": {
-    "type": "number",
-    "default": ]] .. MIN_BET .. [[,
-    "title": "$LLAMA cost (]] .. MIN_BET .. [[)",
-    "$comment": "]] .. LLAMA_TOKEN_MULTIPLIER .. [["
-  },
-}
-}
-]]
-end
-
-
 Handlers.add(
   'TokenBalanceResponse',
   function(msg)
@@ -213,30 +180,9 @@ Handlers.add(
   function(msg)
     local account = msg.Tags.Account
     local balance = tonumber(msg.Tags.Balance)
-    local isAdmin = account == ADMIN_ADDRESS
-    print('Account: ' .. account .. ', Balance: ' .. FormatLlamaTokenAmount(balance))
-    if account == ao.id then
-      CACHE_PROCESS_BALANCE = balance
-    end
-    if isAdmin then
-      RefreshProcessBalance()
-      Send({
-        Target = account,
-        Tags = { Type = 'AdminAction' },
-        Data = json.encode({
-          AskOracleLlama = {
-            Target = ao.id,
-            Title = "Admin Withdraw",
-            Description = string.format(
-              "Pool balance: %s $LLAMA\n", FormatLlamaTokenAmount(CACHE_PROCESS_BALANCE)
-            ),
-            Schema = {
-              Tags = json.decode(AdminchemaTags()),
-            }
-          },
-        })
-      })
-    elseif (balance >= (MIN_BET_QUANTITY)) then
+    print('Account: ' .. account .. ', Balance: ' .. balance)
+
+    if (balance >= (MIN_BET_QUANTITY)) then
       Send({
         Target = account,
         Tags = { Type = 'SchemaExternal' },
@@ -394,30 +340,3 @@ Handlers.add(
     })
   end
 )
-
-
-Handlers.add(
-  'AdminAction',
-  Handlers.utils.hasMatchingTag('Action', 'AdminAction'),
-  function(msg)
-    print('Withdraw to Admin ' .. msg.From .. ' ' .. FormatLlamaTokenAmount(msg.Tags.Quantity))
-    Send({
-      Target = LLAMA_TOKEN_PROCESS,
-      Tags = {
-        Action = 'Transfer',
-        Recipient = msg.From,
-        Quantity = tostring(msg.Tags.Quantity),
-      },
-    })
-  end
-)
-
-function RefreshProcessBalance()
-  Send({
-    Target = LLAMA_TOKEN_PROCESS,
-    Tags = {
-      Action = 'Balance',
-      Account = ao.id,
-    },
-  })
-end
