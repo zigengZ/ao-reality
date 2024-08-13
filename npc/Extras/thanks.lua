@@ -38,7 +38,7 @@ Handlers.add(
         Action = 'ChatMessage',
         ['Author-Name'] = 'Gratitude Llamastery',
       },
-      Data = "Hear ye, hear ye! The Gratitude Llamastery hereby invokes the blessings of the Cosmic Camelids upon the noble AR/AO team! May their code flow like the endless streams of digital nectar! Special psychic waves of appreciation are telepathically transmitted to the mystical sages Elliot and Jon for their arcane code wisdom! May their debugging skills ever shield them from the dreaded Blue Screen of Death, and may their commits always be merge-conflict-free! -------Zigaza"
+      Data = "Hear ye, hear ye! The Gratitude Llamastery hereby invokes the blessings of the Cosmic Camelids upon the noble AR/AO team! May their code flow like the endless streams of digital nectar! Special psychic waves of appreciation are telepathically transmitted to the mystical sages Elliot and Jon for their arcane code wisdom! May their debugging skills ever shield them from the dreaded Blue Screen of Death, and may their commits always be merge-conflict-free! -------Zigza"
           })
 
     TIMESTAMP_LAST_MESSAGE_MS = msg.Timestamp

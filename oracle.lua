@@ -94,6 +94,7 @@ Handlers.add(
         },
         Data = "Invalid quantity, the ancient llama spirits are displeased, the quantity must between 0.01 and 1 $LLAMA",
       })
+      RefundBet(sender, quantity)
       return print("Invalid quantity")
     end
 
