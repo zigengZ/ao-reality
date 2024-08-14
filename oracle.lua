@@ -246,7 +246,7 @@ Handlers.add(
             Target = LLAMA_TOKEN_PROCESS,
             Title = "Welcome to Madame Baa-Baa's Wooly Wisdom Hut! I'm the Ovine Oracle, seer of Highs and Lows. Peer into my mystic eyes (rectangular pupils? Pure flair!) and test your fleece-tiny! Will you scale Ewe-verest or tumble into Shear Despair? Make a wish, brave lambkin - may ancient sheep spirits guide you!",
             Description = string.format(
-              "Your balance: %s $LLAMA\n", FormatTokenAmount(balance)
+              "Your balance: %s $LLAMA\n", FormatLlamaTokenAmount(balance)
             ),
             Schema = {
               Tags = json.decode(BetSchemaTags()),
@@ -267,7 +267,7 @@ Handlers.add(
             Description = string.format(
               "Alas, young seeker! The mystical forces reveal that your cosmic $LLAMA reserves are running low. The ancient scrolls decree a minimum offering of %s $LLAMA to unlock the secrets of fate, but your astral wallet shows a mere %s $LLAMA.\n\n" ..
               "Fear not! To replenish your spiritual coffers, seek out the benevolent Llama Giver, or perform the sacred ritual of 'asking a friend'. Remember, in the grand tapestry of the universe, there's no shame in a little celestial charity!",
-              FormatTokenAmount(MIN_BET), FormatTokenAmount(balance)
+              FormatLlamaTokenAmount(MIN_BET), FormatLlamaTokenAmount(balance)
             ),
             Schema = nil,
           },
@@ -291,7 +291,7 @@ function RefundBet(sender, quantity)
 
 function ValidateBetQuantity(quantity)
   local res = quantity ~= nil and quantity >= MIN_BET_QUANTITY and quantity <= MAX_BET_QUANTITY
-  print('Quantity is ' .. tostring(quantity) .. ', ValidateBetQuantity result is ' .. tostring(res))
+  print('Quantity is ' .. tostring(FormatLlamaTokenAmount(quantity)) .. ', ValidateBetQuantity result is ' .. tostring(res))
   return res
 end
 
@@ -306,12 +306,12 @@ function ProcessGame(sender, betAmount, choice)
   local won = result == choice
   local resultMessage
   print('Result: ' .. result .. ', Choice: ' .. choice .. ', Won: ' .. tostring(won))
-  print('Bet amount: ' .. betAmount)
+  print('Bet amount: ' .. FormatLlamaTokenAmount(betAmount))
   print('Sender: ' .. sender)
   if won then
     local winAmount = math.floor(betAmount * 1.5)  -- 50% profit
     resultMessage = string.format("%s, By the whiskers of the great llama in the sky! Your clairvoyance rivals my own! You wagered %s $LLAMA on the mystical path of %s, and the universe has smiled upon you with a bountiful %s $LLAMA! Quick, buy a lottery ticket before your luck runs out!",
-                                  sender,FormatTokenAmount(betAmount), choice, FormatTokenAmount(winAmount))
+                                  sender,FormatLlamaTokenAmount(betAmount), choice, FormatLlamaTokenAmount(winAmount))
     Send({
       Target = LLAMA_TOKEN_PROCESS,
       Tags = {
@@ -320,10 +320,10 @@ function ProcessGame(sender, betAmount, choice)
         Quantity = tostring(winAmount),
       },
     })
-    print('Transfered ' .. winAmount .. ' to ' .. sender)
+    print('Transfered ' .. FormatLlamaTokenAmount(winAmount) .. ' to ' .. sender)
   else
     resultMessage = string.format("%s, Alas, brave soul! The fickle fingers of fate have fumbled. You offered %s $LLAMA to the altar of chance, choosing the path of %s, but the cosmic dartboard landed on %s. Don't despair! In the grand tapestry of the universe, this is but a tiny, llama-shaped hole. May your future endeavors be filled with more hay... I mean, success!",
-                                  sender,FormatTokenAmount(betAmount), choice, result)
+                                  sender,FormatLlamaTokenAmount(betAmount), choice, result)
   end
   
   Send({
