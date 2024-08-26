@@ -1,6 +1,6 @@
 -- Configure this to the process ID of the world you want to send chat messages to
 CHAT_TARGET = 'k75qv8bkXGit8eb5bHTsYGYwDigwMbzPMCOHUPE82EA'
-LLAMA_TOKEN_PROCESS = 'pazXumQI-HPH7iFGfTC-4_7biSnqz_U67oFAGry5zUY'
+LLAMA_TOKEN_PROCESS = '9a_YP6M7iN7b6QUoSvpoV3oe3CqxosyuJnraCucy5ss'
 ADMIN_ADDRESS = 'jSi6j6uTthM2xIZfAFmirxbvGo0tskDsGavrrnj5qVY'
 
 -- Configure this to the process ID of the world you want to send chat messages to
