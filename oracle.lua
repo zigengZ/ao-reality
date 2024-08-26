@@ -91,6 +91,7 @@ Handlers.add(
         Tags = {
           Action = 'ChatMessage',
           ['Author-Name'] = 'Oracle Llama',
+          Recipient = sender,
         },
         Data = "Invalid quantity, the ancient llama spirits are displeased, the quantity must between 0.01 and 1 $LLAMA",
       })
@@ -121,6 +122,7 @@ Handlers.add(
       Tags = {
         Action = 'ChatMessage',
         ['Author-Name'] = 'Oracle Llama',
+        Recipient = sender,
       },
       Data = "High or Low, good question~ The spirits of the ancient llamas whisper... but they're a bit hoarse today. Ah, I see you seek the wisdom of High and Low. Let me consult my crystal hay bale...",
     })
