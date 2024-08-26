@@ -93,7 +93,7 @@ Handlers.add(
           ['Author-Name'] = 'Oracle Llama',
           Recipient = sender,
         },
-        Data = "Invalid quantity, the ancient llama spirits are displeased, the quantity must between 0.01 and 1 $LLAMA",
+        Data = "Invalid quantity, the ancient llama spirits are displeased, the quantity must between " .. MIN_BET .. " and " .. MAX_BET .. " $LLAMA",
       })
       RefundBet(sender, quantity)
       return print("Invalid quantity")
