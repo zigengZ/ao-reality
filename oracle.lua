@@ -1,6 +1,6 @@
 -- Configure this to the process ID of the world you want to send chat messages to
 CHAT_TARGET = 'k75qv8bkXGit8eb5bHTsYGYwDigwMbzPMCOHUPE82EA'
-LLAMA_TOKEN_PROCESS = 'pazXumQI-HPH7iFGfTC-4_7biSnqz_U67oFAGry5zUY'
+LLAMA_TOKEN_PROCESS = '9a_YP6M7iN7b6QUoSvpoV3oe3CqxosyuJnraCucy5ss'
 ADMIN_ADDRESS = 'jSi6j6uTthM2xIZfAFmirxbvGo0tskDsGavrrnj5qVY'
 
 -- Configure this to the process ID of the world you want to send chat messages to
@@ -12,8 +12,8 @@ Llama = Llama or nil
 
 LLAMA_TOKEN_DENOMINATION = 12
 LLAMA_TOKEN_MULTIPLIER = 10 ^ LLAMA_TOKEN_DENOMINATION
-MIN_BET = 0.01
-MAX_BET = 1
+MIN_BET = 1
+MAX_BET = 10
 MIN_BET_QUANTITY = MIN_BET * LLAMA_TOKEN_MULTIPLIER
 MAX_BET_QUANTITY = MAX_BET * LLAMA_TOKEN_MULTIPLIER
 
@@ -91,8 +91,9 @@ Handlers.add(
         Tags = {
           Action = 'ChatMessage',
           ['Author-Name'] = 'Oracle Llama',
+          Recipient = sender,
         },
-        Data = "Invalid quantity, the ancient llama spirits are displeased, the quantity must between 0.01 and 1 $LLAMA",
+        Data = "Invalid quantity, the ancient llama spirits are displeased, the quantity must between " .. MIN_BET .. " and " .. MAX_BET .. " $LLAMA",
       })
       RefundBet(sender, quantity)
       return print("Invalid quantity")
@@ -121,6 +122,7 @@ Handlers.add(
       Tags = {
         Action = 'ChatMessage',
         ['Author-Name'] = 'Oracle Llama',
+        Recipient = sender,
       },
       Data = "High or Low, good question~ The spirits of the ancient llamas whisper... but they're a bit hoarse today. Ah, I see you seek the wisdom of High and Low. Let me consult my crystal hay bale...",
     })
@@ -160,7 +162,9 @@ function BetSchemaTags()
   "Quantity": {
     "type": "number",
     "default": ]] .. MIN_BET .. [[,
-    "title": "$LLAMA cost (]] .. MIN_BET .. [[)",
+    "minimum": ]] .. MIN_BET .. [[,
+    "maximum": ]] .. MAX_BET .. [[,
+    "title": "$LLAMA cost (]] .. MIN_BET .. [[-]] .. MAX_BET .. [[)",
     "$comment": "]] .. LLAMA_TOKEN_MULTIPLIER .. [["
   },
   "X-JokeTopic": {
