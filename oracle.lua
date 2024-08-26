@@ -12,10 +12,10 @@ Llama = Llama or nil
 
 LLAMA_TOKEN_DENOMINATION = 12
 LLAMA_TOKEN_MULTIPLIER = 10 ^ LLAMA_TOKEN_DENOMINATION
-MIN_BET = 0.01
-MAX_BET = 1
+MIN_BET = 10
+-- MAX_BET = 100
 MIN_BET_QUANTITY = MIN_BET * LLAMA_TOKEN_MULTIPLIER
-MAX_BET_QUANTITY = MAX_BET * LLAMA_TOKEN_MULTIPLIER
+-- MAX_BET_QUANTITY = MAX_BET * LLAMA_TOKEN_MULTIPLIER
 
 CACHE_PROCESS_BALANCE = 0
 RefreshProcessBalance()
@@ -160,6 +160,8 @@ function BetSchemaTags()
   "Quantity": {
     "type": "number",
     "default": ]] .. MIN_BET .. [[,
+    "minimum": ]] .. MIN_BET .. [[,
+    "maximum": ]] .. MIN_BET .. [[,
     "title": "$LLAMA cost (]] .. MIN_BET .. [[)",
     "$comment": "]] .. LLAMA_TOKEN_MULTIPLIER .. [["
   },
